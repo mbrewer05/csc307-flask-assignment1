@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+import random
 app = Flask(__name__)
 CORS(app)
 
@@ -65,6 +66,7 @@ def get_users():
     elif request.method == 'POST':
         userToAdd = request.get_json()
         users['users_list'].append(userToAdd)
+        users['users_list'][len(users['users_list'])-1]['id'] = random_id()
         resp = jsonify(success=True)
         resp.status_code = 201 #201 for a successfuly create
         return resp
@@ -83,5 +85,10 @@ def get_user(id):
         return ({})
     return users
     
-    
-    
+
+def random_id():
+    id = ''
+    for i in range(0,3):
+        id += chr(random.randrange(97,123))
+    id += str(random.randrange(100,1000))
+    return id
