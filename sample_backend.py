@@ -66,8 +66,9 @@ def get_users():
     elif request.method == 'POST':
         userToAdd = request.get_json()
         users['users_list'].append(userToAdd)
-        users['users_list'][len(users['users_list'])-1]['id'] = random_id()
-        resp = jsonify(success=True)
+        if 'id' not in userToAdd:
+            users['users_list'][len(users['users_list'])-1]['id'] = random_id()
+        resp = jsonify(users['users_list'][len(users['users_list'])-1])
         resp.status_code = 201 #201 for a successfuly create
         return resp
     elif request.method == 'DELETE':
